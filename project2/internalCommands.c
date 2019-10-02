@@ -15,11 +15,11 @@ struct dirent *de;
 //function declarations for built in commands
 int quit();
 int cd(char **args);
-int help();
+int help(char **args);
 int pause();
-int dir();
+int dir(char **args);
 int echo(char **args);
-int enviro();
+int enviro(char **args);
 int clr();
 void printDir();
 int backgroundEx(char **args);
@@ -51,7 +51,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
     	return 1;
   	}
 
-	int help(){
+	int help(char **args){
   	puts("\n***WELCOME TO MY SHELL HELP***"
   	"\nCommands supported by this shell:"
 	"\n>quit"
@@ -74,7 +74,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
 	return 1;
 	}
 
-	int dir(){
+	int dir(char **args){
 	DIR *dr = opendir(".");
   	if (dr == NULL){
     	printf("Could not open current directory" );
@@ -95,7 +95,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
   	return 1;
 	}
 
-	int enviro(){
+	int enviro(char **args){
 	char* username=getenv("USER");
 	char* homeDir=getenv("HOME");
 	char* editor=getenv("EDITOR");
@@ -139,7 +139,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
 		return 1;
       	case 3:
 		//help
-        	help();
+        	help(args);
 		return 1;
     	case 4:
         	//pause
@@ -147,7 +147,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
 		return 1;
     	case 5:
         	//dir
-		dir();
+		dir(args);
 		return 1;
     	case 6:
         	//echo
@@ -155,7 +155,7 @@ char *intCommands[] = {"quit", "cd", "help", "pause","dir", "echo", "enviro", "c
 		return 1;
     	case 7:
         	//enviro
-		enviro();
+		enviro(args);
 		return 1;
     	case 8:
         	//clr

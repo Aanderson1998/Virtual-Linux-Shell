@@ -28,20 +28,20 @@
 	exit(0);
 	}
 
-	int cd(struct simple_command com){
-	if (com.arguments[1] == NULL) {
+	int cd(char** args){
+	if (args[1] == NULL) {
     	printDir();
-    	}else if(chdir(com.arguments[1])<0){
+    	}else if(chdir(args[1]<0)){
 	printf("unable to open directory\n");
 	return 0;
 	}else{
-      	chdir(com.arguments[1]);
+      	chdir(args[1]);
 		printDir();
     	}
     	return 1;
   	}
 
-	int help(struct simple_command com){
+	int help(char **args){
   	puts("\n***WELCOME TO MY SHELL HELP***"
   	"\nCommands supported by this shell:"
 	"\n>quit"
@@ -64,7 +64,7 @@
 	return 1;
 	}
 
-	int dir(struct simple_command com){
+	int dir(char **args){
 	char cwd[1024];
 	getcwd(cwd,sizeof(cwd));
 	DIR *p;
@@ -80,16 +80,16 @@
 	return 1;
 	}
 
-	int echo(struct simple_command com){
+	int echo(char **args){
 	int i=1;
-	while(com.arguments[i]!= NULL){
-  	printf("%s ", com.arguments[i]);
+	while(args[i]!= NULL){
+  	printf("%s ", args[i]);
 	i++;
 	}
   	return 1;
 	}
 
-	int enviro(struct simple_command com){
+	int enviro(char **args){
 	char* username=getenv("USER");
 	char* homeDir=getenv("HOME");
 	char* editor=getenv("EDITOR");
@@ -110,10 +110,12 @@
   	return 1;
 	}
 
-  	int internalCommands(struct simple_command com){
+
+  	int internalCommands(char **args){
     	int commandNum=0;
   	for (int i = 0; i < numInternalCommands; i++) {
-        	if (strcmp(com.word, intCommands[i]) == 0) {
+        	if (strcmp((args[0]), intCommands[i]) == 0) {
+
             	commandNum = i+1;
             	break;
         	}
@@ -123,22 +125,22 @@
 	        quit();
 		return 1;
      	case 2:
-        	cd(com);
+        	cd(args);
 		return 1;
       	case 3:
-        	help(com);
+        	help(args);
 		return 1;
     	case 4:
 		pause();
 		return 1;
     	case 5:
-		dir(com);
+		dir(args);
 		return 1;
     	case 6:
-	        echo(com);
+	        echo(args);
 		return 1;
     	case 7:
-		enviro(com);
+		enviro(args);
 		return 1;
     	case 8:
 	      	clr();
@@ -152,4 +154,38 @@
 
 
 
+
+	int main(int argc, char *argv[]){
+	char *args1[]={"cd", "hoot"};
+	char *args2[]={"echo", "yes", "bitch", "slay", "ily", NULL};
+	char *pause[]={"pause"};
+	char *enviro[]={"enviro"};
+	char *clr[]={"clr"};
+	char *quit[]={"quit"};
+	char *help[]={"help"};
+	char *dir[]={"dir","strings"};
+	printf("\n\n\n1. This is the internal command for cd\n");
+	internalCommands(args1);
+	sleep(1);
+	printf("\nThis is the internal command for dir\n");
+	internalCommands(dir);
+	sleep(1);
+	printf("\n\n\n2. This is the internal command for pause\n");
+	internalCommands(pause);
+	printf("\n\n\n3. This is the internal command for clr\n");
+	sleep(1);
+	internalCommands(clr);
+	sleep(1);
+	printf("\n\n\n5. This is the internal command for enviro\n");
+	internalCommands(enviro);
+	sleep(1);
+	printf("\n\n\n6. This is the internal command for echo\n");
+	internalCommands(args2);
+	sleep(1);
+	printf("\n\n\n7. This is the internal command for help\n");
+	internalCommands(help);
+	sleep(1);
+	printf("\n\n\n8. This is the internal command for quit\n");
+	internalCommands(quit);
+	}
 

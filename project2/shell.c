@@ -56,7 +56,6 @@
   	char **args;
   	int again;
 	struct simple_command com;
-  	clr();
   	printf("\n\n\n\t*******************welcome to my shell**************************");
   	char* username = getenv("USER");
   	printf("\n\n\nUSER is: @%s\n", username);
@@ -65,9 +64,15 @@
   	do {
 
 		input = getInput();
-        	args = str_tok(input);
+		int pipe=findPipe(input);
+		if(pipe==1){
+		args=str_tok(input, "|");
+		again=pipeExecution(args);
+		}else{
+        	args = str_tok(input, " ");
         	com=strParse(args);
     		again = execute(com);
+		}
 		free(input);
     		free(args);
   	} while (again);
@@ -75,3 +80,5 @@
 
 
 
+
+//in main call findpipe function after getting input. if pipe is present call strtok to tokenize it by pipe(args=str_tok(input '|')) and send args directly to pipe execution function. else proceed normally

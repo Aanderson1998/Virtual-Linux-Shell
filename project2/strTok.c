@@ -6,8 +6,8 @@
 #include <string.h>
 #include "shell.h"
 
-   char **str_tok(char *input){
-        int tokSize = SIZE;
+   	char **str_tok(char *input, char *tok){
+	int tokSize = SIZE;
         int position = 0;
         char **tokens = (char**)malloc(tokSize * sizeof(char*));
         char *token;
@@ -15,13 +15,14 @@
                 printf("allocation error");
                 exit(0);
         }
-        token = strtok(input, " ");
+        token = strtok(input, tok);
         while (token != NULL) {
                 tokens[position] = token;
                 position++;
-                token = strtok(NULL, " ");
+                token = strtok(NULL, tok);
         }
         tokens[position] = NULL;
         return tokens;
         }
+
 

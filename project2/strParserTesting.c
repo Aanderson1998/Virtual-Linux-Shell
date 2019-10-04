@@ -48,29 +48,34 @@
 
 
 	struct simple_command strParse(char **args){
-	int pipe=0;
 	int background=0;
 	int input=0;
-	int output=0;
+	int outputA=0;
+	int outputO=0;
+	int inFileLoc=0;
+	int outFileLoc=0;
 	int i=0;
+	int j=0;
 	while(args[i]!=NULL){
-	if(strcmp(args[i],"|")==0){
-	pipe=1;
-	}
 	if(strcmp(args[i],"<")==0){
 	input=1;
+	inFileLoc=i;
 	}
-	if(strcmp(args[i],">")==0 || strcmp(args[i],">>")==0){
-        output=1;
+	if(strcmp(args[i],">")==0) {
+	outputO=0;
+	outFileLoc=i+1;
+	}
+	if(strcmp(args[i],">>")==0){
+        outputA=1;
+	outFileLoc=i+1;
 	}
 	if(strcmp(args[i],"&")==0){
         background=1;
 	}
 	i++;
+	j++;
 	}
-	simple_command com={args[0],args,input,output,pipe,background};
-	char **comArgs=com.arguments;
-	int k=0;
+	simple_command com={args[0],args,input,outputO,outputA,background,j,inFileLoc,outFileLoc};
 	return com;
 	}
 
@@ -93,9 +98,12 @@
         printf("%s\n",com.arguments[k]);
         k++;
         }
-        printf("\npiping: %d\n",com.piping);
         printf("\ninput redirection: %d\n",com.inputRedirection);
-        printf("\noutput redirection: %d\n",com.outputRedirection);
+        printf("\noutput overwriting redirection: %d\n",com.outputORedirection);
+	printf("\noutput appending redirection: %d\n",com.outputARedirection);
         printf("\nBackground execution: %d\n", com.backgroundEx);
+	printf("\nNumer of elements in command: %d\n",com.size);
+	printf("\nInput file location is at index: %d\n",com.inFileLoc);
+	printf("\nOutput file location is at index %d\n",com.outFileLoc);
         }
 

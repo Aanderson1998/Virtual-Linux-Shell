@@ -1,5 +1,7 @@
 #include <sys/wait.h>
 #include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,10 +16,23 @@
 
 
   	int externalCommands(struct simple_command com){
-  	if(com.word==NULL){
+  	int fdin;
+	int fdout;
+	if(com.word==NULL){
     		printf("No command entered");
     		return 1;
   		}
+	if(com.inputRedirection==1){
+	fdin=open(com.arguments[com.inFileLoc], O_RDONLY);
+	dup2(fdin, 0);
+	}
+	if(com.outputORedirection==1){
+	fdout = open(com.arguments[com.outFileLoc], O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU|S_IRWXG|S_IRWXO);
+	dup2(fdout,1);
+	}else if(com.outputARedirection==1){
+	fdout=open(com.arguments[com.outFileLoc], O_CREAT|O_WRONLY|O_APPEND, S_IRWXU|S_IRWXG|S_IRWXO);
+	dup2(fdout,1);
+	}
   	pid_t pid = fork();
   	if (pid < 0) {
    		printf("\nFailed forking child..");
@@ -30,6 +45,12 @@
     	} else{
     		wait(NULL);
     	}
+	if(com.inputRedirection==1){
+	close(fdin);
+	}
+	if(com.outputORedirection==1 || com.outputARedirection==1){
+	close(fdout);
+	}
 	return 1;
 	}
 
@@ -81,4 +102,3 @@
 
 
 
-//in main call findpipe function after getting input. if pipe is present call strtok to tokenize it by pipe(args=str_tok(input '|')) and send args directly to pipe execution function. else proceed normally

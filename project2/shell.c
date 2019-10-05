@@ -42,7 +42,7 @@
         	printf("\nCould not execute command..");
         	}
     		exit(0);
-    	} else{
+    	}else{
     		wait(NULL);
     	}
 	if(com.inputRedirection==1){

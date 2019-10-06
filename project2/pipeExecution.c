@@ -15,6 +15,8 @@
 	char **afterPipe;
 	beforePipe=str_tok(args[0]," ");
 	afterPipe=str_tok(args[1]," ");
+	simple_command com1=strParse(beforePipe);
+	simple_command com2=strParse(afterPipe);
 	int pipefd[2];
     	pid_t p1, p2;
 	if (pipe(pipefd) < 0) {
@@ -31,7 +33,7 @@
         close(pipefd[0]);
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);
-	if (execvp(beforePipe[0], beforePipe) < 0) {
+	if (execvp(com1.word, com1.arguments) < 0) {
             printf("\nCould not execute command 1..");
             return 1;
         }
@@ -45,7 +47,7 @@
             close(pipefd[1]);
             dup2(pipefd[0], STDIN_FILENO);
             close(pipefd[0]);
-            if (execvp(afterPipe[0], afterPipe) < 0) {
+            if (execvp(com2.word, com2.arguments) < 0) {
                 printf("\nCould not execute command 2..");
                 exit(0);
             }

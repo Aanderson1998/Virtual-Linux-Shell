@@ -23,14 +23,14 @@
                 return 1;
                 }
         if(com.inputRedirection==1){
-        fdin=open(com.arguments[com.inFileLoc], O_RDONLY);
+        fdin=open(com.inFile, O_RDONLY);
         dup2(fdin, 0);
         }
         if(com.outputORedirection==1){
-        fdout = open(com.arguments[com.outFileLoc], O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU|S_IRWXG|S_IRWXO);
+        fdout = open(com.outFile, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU|S_IRWXG|S_IRWXO);
         dup2(fdout,1);
         }else if(com.outputARedirection==1){
-        fdout=open(com.arguments[com.outFileLoc], O_CREAT|O_WRONLY|O_APPEND, S_IRWXU|S_IRWXG|S_IRWXO);
+        fdout=open(com.outFile, O_CREAT|O_WRONLY|O_APPEND, S_IRWXU|S_IRWXG|S_IRWXO);
         dup2(fdout,1);
         }
         pid_t pid = fork();

@@ -4,14 +4,14 @@
 
 typedef struct simple_command{
 	char *word;
-	char **arguments;
 	int inputRedirection;
 	int outputORedirection;
 	int outputARedirection;
 	int backgroundEx;
 	int size;
-	int inFileLoc;
-	int outFileLoc;
+	char *inFile;
+	char *outFile;
+	char **arguments;
 }simple_command;
 
 

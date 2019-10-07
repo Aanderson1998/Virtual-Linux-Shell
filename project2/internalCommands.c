@@ -75,40 +75,40 @@
 	int help(struct simple_command com){
 	FILE *fp;
 	if(com.outputORedirection==0 && com.outputARedirection==0 && com.size==1){
-		puts("\n***WELCOME TO MY SHELL HELP***"
-        	"\nCommands supported by this shell:"
-        	"\n>quit"
-        	"\n>cd"
-        	"\n>help"
-        	"\n>pause"
-        	"\n>dir"
-        	"\n>echo"
-        	"\n>enviro"
-        	"\n>clr"
-        	"\n>all other general commands available through the UNIX shell"
-        	"\n>this shell also performs pipe handling, background execution, redirection, and batch execution"
-        	"\n>Use the man command for information on other commands"
-        	"\n>Have fun using this shell!");
+	puts("\n***WELCOME TO MY SHELL HELP***"
+                "\nCommands supported by this shell:"
+                "\n>quit"
+                "\n>cd"
+                "\n>help"
+                "\n>pause"
+                "\n>dir"
+                "\n>echo"
+                "\n>enviro"
+                "\n>clr"
+                "\n>all other general commands available through the UNIX shell"
+                "\n>this shell also performs pipe handling, background execution, redirection, and batch execution"
+                "\n>Use the man command for information on other commands"
+                "\n>Have fun using this shell!");
 		return 1;
 	}
-	if(com.size==2 ||(com.size==3 && com.outputORedirection==0 && com.outputARedirection==0)){
-        	printf("invalid arguments\n");
-        	return 0;
-	}
-	if(com.size>3){
-		printf("too many arguments for help command\n");
-		return 0;
-	}
-	if(com.outputORedirection==1){
-		fp = fopen(com.arguments[com.outFileLoc], "w");
-	}else if(com.outputARedirection==1){
-		fp=fopen(com.arguments[com.outFileLoc], "a");
-	}
-    	if (fp == NULL){
-        	puts("Couldn't open file");
-        	exit(0);
-    	}else{
-        	fputs("\n***WELCOME TO MY SHELL HELP***"
+        if(com.size==2 ||(com.size==3 && com.outputORedirection==0 && com.outputARedirection==0)){
+                printf("invalid arguments\n");
+                return 0;
+        }
+                if(com.size>3){
+                printf("too many arguments for help  command\n");
+                return 0;
+        }
+                if(com.outputORedirection==1){
+                fp = fopen(com.outFile, "w");
+        }else if (com.outputARedirection==1){
+                fp=fopen(com.outFile, "a");
+        }
+        if(fp == NULL){
+                puts("Couldn't open file");
+                return 0;
+        }else{
+		fputs("\n***WELCOME TO MY SHELL HELP***"
         	"\nCommands supported by this shell:"
         	"\n>quit"
         	"\n>cd"
@@ -122,8 +122,9 @@
         	"\n>this shell also performs pipe handling, background execution, redirection, and batch execution"
         	"\n>Use the man command for information on other commands"
         	"\n>Have fun using this shell!",fp);
-        	fclose(fp);
-    	}
+		fclose(fp);
+		return 1;
+        }
 	return 1;
 	}
 
@@ -135,39 +136,44 @@
 	getcwd(cwd,sizeof(cwd));
 	DIR *p;
 	struct dirent *d;
+	if((com.size==3||com.size==4) && com.outputORedirection==0 && com.outputARedirection==0){
+                printf("invalid arguments\n");
+                return 0;
+        }
+        if(com.size>4){
+                printf("too many arguments for dir command\n");
+                return 0;
+        }
+	if (com.size==1){
 	p=opendir(cwd);
+	} else if (com.size==2){
+	p=opendir(com.arguments[1]);
+	}
 	if(p==NULL){
   		perror("Cannot find directory");
   		return 0;
   	}
-	if(com.outputORedirection==0 && com.outputORedirection==0 && com.size==1){
+	if(com.outputORedirection==0 && com.outputORedirection==0){
 		while(d=readdir(p)){
   		puts(d->d_name);
 	}
 		return 1;
 	}
-        if((com.size==2) ||com.size==3 && com.outputORedirection==0 && com.outputARedirection==0){
-        	printf("invalid arguments\n");
-        	return 0;
-        }
-        if(com.size>3){
-        	printf("too many arguments for dir command\n");
-        	return 0;
-        }
 	if(com.outputORedirection==1){
-        	fp = fopen(com.arguments[com.outFileLoc], "w");
-        }else{
-		fp=fopen(com.arguments[com.outFileLoc], "a");
+        	fp = fopen(com.outFile, "w");
+        }else if (com.outputARedirection==1){
+		fp=fopen(com.outFile, "a");
         }
         if(fp == NULL){
         	puts("Couldn't open file");
 		return 0;
         }else{
 		while(d=readdir(p)){
-        	fprintf(fp,"%s\n",d->d_name);
-        }
+        	fputs(d->d_name,fp);
         }
 	fclose(fp);
+	return 1;
+	}
 	return 1;
 	}
 
@@ -183,21 +189,19 @@
 	}
   		return 1;
 	}
-	if(com.arguments[com.outFileLoc+1]!=NULL){
-        	printf("invalid input\n");
-        	return 0;
-        }
 	if(com.outputORedirection==1){
-        	fp = fopen(com.arguments[com.outFileLoc], "w");
+        	fp = fopen(com.outFile, "w");
         }else{
-        	fp=fopen(com.arguments[com.outFileLoc], "a");
+        	fp=fopen(com.outFile, "a");
         }
         if(fp == NULL){
         	puts("Couldn't open file");
         	return 0;
         }else{
-		for(i=1; i<com.outFileLoc-1;i++){
+		i=1;
+		while(com.arguments[i]!=NULL){
 		fprintf(fp,"%s ",com.arguments[i]);
+		i++;
 	}
 		fclose(fp);
 	}
@@ -232,9 +236,9 @@
         	return 0;
         }
 		if(com.outputORedirection==1){
-        	fp = fopen(com.arguments[com.outFileLoc], "w");
-        }else{
-        	fp=fopen(com.arguments[com.outFileLoc], "a");
+        	fp = fopen(com.outFile, "w");
+        }else if (com.outputARedirection==1){
+        	fp=fopen(com.outFile, "a");
         }
 	if(fp == NULL){
         	puts("Couldn't open file");
@@ -250,7 +254,6 @@
 	}
 	return 1;
 	}
-
 
 
   	int internalCommands(struct simple_command com){

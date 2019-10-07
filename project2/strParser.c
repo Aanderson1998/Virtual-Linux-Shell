@@ -19,20 +19,25 @@
         int outputO=0;
         int i=0;
         int numOfItems=0;
-        int inFileLoc=0;
-        int outFileLoc=0;
+	int outFileLoc=0;
+	int inFileLoc=0;
+        char *inFile;
+        char *outFile;
 	while(args[i]!=NULL){
 	if(strcmp(args[i],"<")==0){
         input=1;
-        inFileLoc=i+1;
+	inFileLoc=i+1;
+        inFile=args[inFileLoc];
         }
         if(strcmp(args[i],">")==0){
         outputO=1;
-        outFileLoc=i+1;
+	outFileLoc=i+1;
+        outFile=args[outFileLoc];
         }
         if(strcmp(args[i],">>")==0){
         outputA=1;
-        outFileLoc=i+1;
+	outFileLoc=i+1;
+        outFile=args[outFileLoc];
         }
         if(strcmp(args[i],"&")==0){
         background=1;
@@ -40,14 +45,9 @@
         numOfItems++;
         i++;
         }
-	i=1;
-	int k=0;
-	char arguments[numOfItems][SIZE];
-	while(args[i]!=">"||args[i]!="<"||args[i]!=">>"){
-	strcpy(arguments[k],args[i]);
-	i++;
-	k++;
-	}
-        simple_command com={args[0],arguments,input,outputO,outputA,background,j,inFileLoc,outFileLoc};
+        simple_command com={args[0],input,outputO,outputA,background,numOfItems,inFile,outFile,args};
 	return com;
 	}
+
+
+

@@ -18,7 +18,7 @@
         int outputA=0;
         int outputO=0;
         int i=0;
-        int j=0;
+        int numOfItems=0;
         int inFileLoc=0;
         int outFileLoc=0;
 	while(args[i]!=NULL){
@@ -37,9 +37,17 @@
         if(strcmp(args[i],"&")==0){
         background=1;
         }
-        j++;
+        numOfItems++;
         i++;
         }
-        simple_command com={args[0],args,input,outputO,outputA,background,j,inFileLoc,outFileLoc};
+	i=1;
+	int k=0;
+	char arguments[numOfItems][SIZE];
+	while(args[i]!=">"||args[i]!="<"||args[i]!=">>"){
+	strcpy(arguments[k],args[i]);
+	i++;
+	k++;
+	}
+        simple_command com={args[0],arguments,input,outputO,outputA,background,j,inFileLoc,outFileLoc};
 	return com;
 	}

@@ -1,3 +1,5 @@
+# Aryanna Anderson, 3207- Introduction to System Programming and Operating Systems Project 2
+
 output:
 	gcc getinput.c strTok.c strParser.c internalCommands.c externalCommands.c findPipe.c pipeExecution.c main.c -lreadline -o myshell
 getinput.o: getinput.c shell.h

@@ -19,6 +19,7 @@
   	char **args;
   	int again;
 	struct simple_command com;
+	printf("\033[H\033[J");
   	printf("\n\n\n\t*******************welcome to my shell**************************");
   	char* username = getenv("USER");
   	printf("\n\n\nUSER is: @%s\n", username);

@@ -100,9 +100,9 @@
                 return 0;
         }
                 if(com.outputORedirection==1){
-                fp = fopen(com.outFile, "w");
-        }else if (com.outputARedirection==1){
-                fp=fopen(com.outFile, "a");
+                fp = fopen(com.command[com.outFileLoc], "w");
+        }else{
+                fp=fopen(com.command[com.outFileLoc], "a");
         }
         if(fp == NULL){
                 puts("Couldn't open file");
@@ -160,9 +160,9 @@
 		return 1;
 	}
 	if(com.outputORedirection==1){
-        	fp = fopen(com.outFile, "w");
-        }else if (com.outputARedirection==1){
-		fp=fopen(com.outFile, "a");
+        	fp = fopen(com.command[com.outFileLoc], "w");
+        }else{
+		fp=fopen(com.command[com.outFileLoc], "a");
         }
         if(fp == NULL){
         	puts("Couldn't open file");
@@ -190,9 +190,9 @@
   		return 1;
 	}
 	if(com.outputORedirection==1){
-        	fp = fopen(com.outFile, "w");
+        	fp = fopen(com.command[com.outFileLoc], "w");
         }else{
-        	fp=fopen(com.outFile, "a");
+        	fp=fopen(com.command[com.outFileLoc], "a");
         }
         if(fp == NULL){
         	puts("Couldn't open file");
@@ -218,6 +218,9 @@
 	char* userID=getenv("UID");
 	char* terminalEmulator=getenv("TERM");
 	char* shell=getenv("SHELL");
+	char* path=getenv("PATH");
+	char* logName=getenv("LOGNAME");
+	char* lang=getenv("LANG");
 	if(com.outputORedirection==0 && com.outputARedirection==0 && com.size==1){
   		printf("\n\nUser is: @%s\n", username);
 		printf("Home Directory is: @%s\n", homeDir);
@@ -225,6 +228,9 @@
 		printf("Your unique user ID is: @%s\n", userID);
 		printf("The terminal emulator is: @%s\n", terminalEmulator);
 		printf("The shell you are using is: @%s\n", shell);
+		printf("The full path is: %s\n", path);
+		printf("The login name is: %s\n", logName);
+		printf("The language is: %s\n", lang);
 		return 1;
 	}
 	if(com.size==2 ||(com.size==3 && com.outputORedirection==0 && com.outputARedirection==0)){
@@ -236,9 +242,9 @@
         	return 0;
         }
 		if(com.outputORedirection==1){
-        	fp = fopen(com.outFile, "w");
-        }else if (com.outputARedirection==1){
-        	fp=fopen(com.outFile, "a");
+        	fp = fopen(com.command[com.outFileLoc], "w");
+        }else {
+        	fp=fopen(com.command[com.outFileLoc], "a");
         }
 	if(fp == NULL){
         	puts("Couldn't open file");
@@ -250,7 +256,11 @@
         	fprintf(fp,"Your unique user ID is: @%s\n", userID);
         	fprintf(fp,"The terminal emulator is: @%s\n", terminalEmulator);
         	fprintf(fp,"The shell you are using is: @%s\n", shell);
+		fprintf(fp,"The full path is: %s\n", path);
+                fprintf(fp,"The login name is: %s\n", logName);
+                fprintf(fp,"The language is: %s\n", lang);
   		fclose(fp);
+		return 1;
 	}
 	return 1;
 	}

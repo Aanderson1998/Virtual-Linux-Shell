@@ -9,8 +9,9 @@ typedef struct simple_command{
 	int outputARedirection;
 	int backgroundEx;
 	int size;
-	char *inFile;
-	char *outFile;
+	int inFileLoc;
+	int outFileLoc;
+	char **command;
 	char **arguments;
 }simple_command;
 

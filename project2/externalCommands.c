@@ -23,14 +23,14 @@
                 return 1;
                 }
         if(com.inputRedirection==1){
-        fdin=open(com.inFile, O_RDONLY);
+        fdin=open(com.command[com.inFileLoc], O_RDONLY);
         dup2(fdin, 0);
         }
         if(com.outputORedirection==1){
-        fdout = open(com.outFile, O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU|S_IRWXG|S_IRWXO);
+        fdout = open(com.command[com.outFileLoc], O_CREAT|O_WRONLY|O_TRUNC, S_IRWXU|S_IRWXG|S_IRWXO);
         dup2(fdout,1);
         }else if(com.outputARedirection==1){
-        fdout=open(com.outFile, O_CREAT|O_WRONLY|O_APPEND, S_IRWXU|S_IRWXG|S_IRWXO);
+        fdout=open(com.command[com.outFileLoc], O_CREAT|O_WRONLY|O_APPEND, S_IRWXU|S_IRWXG|S_IRWXO);
         dup2(fdout,1);
         }
         pid_t pid = fork();
@@ -42,15 +42,16 @@
                 printf("\nCould not execute command..");
                 }
                 exit(0);
-        }else{
-                wait(NULL);
-        }
+        }else if(com.backgroundEx==0){
+        wait(NULL);
+	}else{
         if(com.inputRedirection==1){
         close(fdin);
         }
         if(com.outputORedirection==1 || com.outputARedirection==1){
         close(fdout);
         }
+	}
         return 1;
         }
 

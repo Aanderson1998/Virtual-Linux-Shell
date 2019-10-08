@@ -52,43 +52,69 @@
 	int input=0;
 	int outputA=0;
 	int outputO=0;
-	int inFileLoc=0;
-	int outFileLoc=0;
-	char *inFile;
-	char *outFile;
+	int inFileLoc;
+	int outFileLoc;
+	int backgroundLoc;
 	int i=0;
 	int j=0;
+	int min;
+	char **array=NULL;
 	while(args[i]!=NULL){
 	if(strcmp(args[i],"<")==0){
 	input=1;
 	inFileLoc=i+1;
-	inFile=args[inFileLoc];
 	}
 	if(strcmp(args[i],">")==0) {
 	outputO=1;
 	outFileLoc=i+1;
-	outFile=args[outFileLoc];
 	}
 	if(strcmp(args[i],">>")==0){
         outputA=1;
 	outFileLoc=i+1;
-	outFile=args[outFileLoc];
 	}
 	if(strcmp(args[i],"&")==0){
         background=1;
+	backgroundLoc=i;
 	}
 	i++;
 	j++;
 	}
-	int k=0;
-        i=1;
-        char arguments[j][SIZE];
-        while(args[i]!=">"||args[i]!="<"||args[i]!=">>"){
-        strcpy(arguments[k],args[i]);
+	int count=0;
+	i=1;
+	if(input==0 && outputO==0 && outputA==0 && background==0){
+	while(args[i]!=NULL){
+	count++;
+        array = (char**)realloc(array, (count+1)*sizeof(*array));
+        array[count-1] = (char*)malloc(sizeof(args[i]));
+        strcpy(array[count-1], args[i]);
         i++;
-        k++;
         }
-	simple_command com={args[0],input,outputO,outputA,background,j,inFile,outFile,arguments};
+        array[count]=NULL;
+
+
+	}else{
+	if(input==0 &&(outputO==1 || outputA==1)){
+	min=outFileLoc-1;
+	}
+	else if(input==1){
+	min=inFileLoc-1;
+	}else{
+	min=backgroundLoc;
+	}
+	printf("%d",min);
+
+	count=0;
+	i=1;
+	while(i<min){
+	count++;
+    	array = (char**)realloc(array, (count+1)*sizeof(*array));
+    	array[count-1] = (char*)malloc(sizeof(args[i]));
+    	strcpy(array[count-1], args[i]);
+	i++;
+	}
+	array[count]=NULL;
+	}
+	simple_command com={args[0],input,outputO,outputA,background,j,inFileLoc,outFileLoc,args,array};
 	return com;
 	}
 
@@ -116,7 +142,7 @@
 	printf("\noutput appending redirection: %d\n",com.outputARedirection);
         printf("\nBackground execution: %d\n", com.backgroundEx);
 	printf("\nNumer of elements in command: %d\n",com.size);
-	printf("\nInput file is: %s\n",com.inFile);
-	printf("\nOutput file is: %s\n",com.outFile);
+	printf("\nInput file is: %s\n",com.command[com.inFileLoc]);
+	printf("\nOutput file is: %s\n",com.command[com.outFileLoc]);
         }
 

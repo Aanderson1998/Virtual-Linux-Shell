@@ -51,10 +51,12 @@
                 printf("\nCould not execute command 2..");
                 exit(0);
             }
-        } else {
+        } else if(com2.backgroundEx==0){
             wait(NULL);
             wait(NULL);
-        }
-    }
+        }else{
+	return 1;
+	}
+	}
 	return 1;
 }

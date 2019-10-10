@@ -9,15 +9,17 @@
 #include "shell.h"
 
 
-//function used to get command from user during interactive mode
-char *getInput(){
+	//function used to get command from user during interactive mode returns a char* to the command entered
+	char *getInput(){
 	//char * to hold command
 	char* str;
+	//prints out the directory pathway each time it asks for input
 	//getting the pathway of the current directory
 	char cwd[1024];
         getcwd(cwd, sizeof(cwd));
-	//printing the pathway of the current directory/myshell>> as the command line prompt and using readline to get the command entered
+	//printing the pathway of the current directory/myshell>> as the command line prompt
 	printf("\n%s", cwd);
+	//using readline to get input from user using the keyboard and saves it in str variable
         str = readline("/myshell>> ");
 	//adding command to history so user can  use backspace and back arrow to fix command
         if (strlen(str) != 0) {

@@ -6,7 +6,7 @@ Description
  
 myshell is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. myshell also incorporates useful features from the Bash shell.
 
-myshell is intended to be a simple implementation of a UNIX/LINUX shell. 
+myshell is intended to be a simple implementation of a LINUX shell. 
 
 myshell is an interactive loop: it repeatedly takes a line of input (the command entered), parses the input, executes the command specified on that line of input, and waits for the command to finish. This is repeated until the the shell exits. The shell can be invoked with either no arguments or a single argument; anything else is an error. 
 
@@ -51,6 +51,10 @@ Program Environment:
 The shell environment is defined by the environment variables. These are the variables that are exported to all processes spawned by the shell. Their settings can be seen with the enviro command. When you log in to the system, the shell undergoes a phase called initialization to set up the environment by initializing these variables. A subset of environment variables, affects the behavior of the shell itself.
 
 More information on Bash Shell and the way the external commands are processed by myshell can be seen by typing in the command man bash.
+
+Issue with using shell occur when trying to use batch mode. Program reads lines from file correctly, but there must be an error in the way the last characters are inputted causing them to not be able to be executed correctly
+
+Also problem with trying to send dir function to output redirection. File opens but it does not seem like the strings are being written and program freezes. Tried fixing but I could not find solution
 
 
 

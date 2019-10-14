@@ -115,7 +115,7 @@
                 "\n>pause"
                 "\n>dir"
                 "\n>echo"
-                "\n>enviro"
+                "\n>environ"
                 "\n>clr"
                 "\n>all other general commands available through the UNIX shell"
                 "\n>this shell also performs pipe handling, background execution, redirection, and batch execution"
@@ -155,7 +155,7 @@
         	"\n>pause"
         	"\n>dir"
         	"\n>echo"
-        	"\n>enviro"
+        	"\n>environ"
         	"\n>clr"
         	"\n>all other general commands available through the UNIX shell"
         	"\n>this shell also performs pipe handling, background execution, redirection, and batch execution"
@@ -228,6 +228,7 @@
 		//else if file opens, iterates through files in directory and prints them to the output file
 		while(d=readdir(p)){
         	fputs(d->d_name,fp);
+		return 1;
         }
 	//closes output file and returns
 	fclose(fp);

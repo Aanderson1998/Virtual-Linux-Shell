@@ -49,7 +49,7 @@
                 //if the value is less than 0 that means the command could not be executed, prints an error message and returns
 		if (execvp(com1.word, com1.arguments) < 0) {
             		printf("\nCould not execute command 1..");
-            		return 1;
+			exit(0);
         	}
     	} else {
 		//else it is successful and forks a new child to do the second command (after pipe)
@@ -78,11 +78,9 @@
 			//if it is 0 calls wait
             		wait(NULL);
             		wait(NULL);
-        	}else{
-			//else it returns
-			return 1;
+		 	}
 		}
-	}
 	//returns when end of function is reached
 	return 1;
 	}
+

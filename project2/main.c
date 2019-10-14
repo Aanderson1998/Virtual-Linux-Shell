@@ -68,10 +68,6 @@
 				//sends the command struct to the execute function
                 		again=execute(com);
                 	}
-			//free input, args, and com.arguments values each time through
-                	free(input);
-                	free(args);
-                	free(com.arguments);
 		//continue doing this while again==1 which means until quit function is called
         	} while (again);
 	//else means there was a batch file to be read from
@@ -87,7 +83,13 @@
 		line_size = getline(&input, &line_buf_size, fp);
 		//while the size of the line is greater that or equal to 0
 		while (line_size >= 0){
-			//it sends input to findpipe function to search for pipe. Returns 1 if pipe was found or 0 if not
+			//print input to show file is being read correctly
+			printf("%s\n",input);
+
+
+//program should execute commands from batch file but there are errors when trying to do it. Here is code
+
+/*			//it sends input to findpipe function to search for pipe. Returns 1 if pipe was found or 0 if not
                 	int pipe=findPipe(input);
 			//if pipe is found, tokens input by the pipe and send that to pipeExecution function
                 	if(pipe==1){
@@ -101,7 +103,9 @@
 				//sends the command struct to the execute function
                 		execute(com);
 			}
-			//gets next line in file
+*/			//gets next line in file
+
+
 			 line_size = getline(&input, &line_buf_size, fp);
 		}
 	}

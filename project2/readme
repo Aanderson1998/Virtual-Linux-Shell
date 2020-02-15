@@ -1,20 +1,13 @@
 # Virtual Linux Shell
 
-Virtual Linux Shell
+## myshell - Aryanna Anderson's shell
 
-myshell - Aryanna Anderson's shell
-
-Description
- 
 myshell is an sh-compatible command language interpreter that executes commands read from the standard input or from a file. myshell also incorporates useful features from the Bash shell.
 
 myshell is intended to be a simple implementation of a LINUX shell. 
 
-myshell is an interactive loop: it repeatedly takes a line of input (the command entered), parses the input, executes the command specified on that line of input, and waits for the command to finish. This is repeated until the the shell exits. The shell can be invoked with either no arguments or a single argument; anything else is an error. 
-
-Interactive mode:
+myshell is an interactive loop: it repeatedly takes a line of input (the command entered), parses the input, executes the command specified on that line of input, and waits for the command to finish. This is repeated until the the shell exits. The shell can be invoked with either no arguments or a single argument; anything else is an error. Interactive mode:
  When the shell is invoked with no arguments it is in interactive mode. In this mode the prints the command line prompy myshell> and allows the user to type commands directly. The user can then press return after writing the command and the command will run, and then print the command line prompt again meaning it is ready to execute another commands. The user can repeatedly do this until they enter quit, meaning to exit the shell
- 
  Batch mode:
  When the shell is invoked with one argument it is in batch mode. The one argument is the batch file which contains a list of arguments. In this mode instead of the shell reading input directly from the screen and user, the shell reads input from the batch file and executes the commands within the file line by line. In this mode no prompt is printed to the screen, instead the shell will begin running the commands from the file directly and exit when it reaches the end of the file.
  
